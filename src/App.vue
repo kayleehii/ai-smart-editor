@@ -101,7 +101,7 @@ onBeforeUnmount(() => {
         清空
       </button>
 
-      <button @click="analyzeMood" class="px-3 py-1 border rounded hover:opacity-80 transition">
+      <button @click="analyzeMood" class="px-3 py-1 border rounded hover:opacity-90 transition">
          🎨 AI 换肤
 
       </button>
