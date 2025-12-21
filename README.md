@@ -1,16 +1,16 @@
-# Vue 3 + Vite
+# AI Smart Editor
 
-这是一个“意图识别UI”（Intent-Based UI）
+这是一个基于 Vue 3 + Vite + Tiptap 开发的智能 AI 富文本编辑器。
 
-用到的VUE核心知识点：
+## ✨ 特性 (Features)
 
-1.数据绑定（:class）：根据变量动态改变样式
+- 🚀 **工程化标准**：采用 ESLint + Prettier 规范，基于 Git Flow 开发。
+- 🤖 **AI 交互**：模拟流式输出 (Streaming UI)，支持意图识别换肤。
+- 🎨 **现代化 UI**：使用 Tailwind CSS v4 构建。
 
-2.内容获取：从Tiptap编辑器里把纯文本拿出来
+## 🛠️ 运行 (Usage)
 
-
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
-
+```bash
+npm install
+npm run dev
+```
