@@ -1,3 +1,5 @@
+
+
 <script setup>
 import { onBeforeUnmount, ref } from 'vue'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
@@ -11,9 +13,10 @@ const editor = useEditor({
   extensions: [
     StarterKit,
   ],
-  content: `
+  // 1.内容初始化（读档）
+  content: localStorage.getItem('ai-draft')||`
     <p>你好！我是你的 <b>Vue AI 灵感助手</b>。</p>
-    <p>在这里输入内容，点击下方的按钮体验交互...</p>
+    <p>试着在这里打字，然后刷新页面，你的内容不会丢失...</p>
   `,
   editorProps: {
     attributes: {
@@ -40,6 +43,31 @@ const runAI = () => {
   }, 1000)
 }
 
+// 导出文件的函数
+const exportFile = () => {
+  if (!editor.value) return
+
+  // 1. 拿到内容 (这里我们拿 HTML，保留格式)
+  const content = editor.value.getHTML()
+  
+  // 2. 创建一个 Blob 对象 (这是面试考点：二进制大对象)
+  // 把它包装成一个文本文件
+  const blob = new Blob([content], { type: 'text/html;charset=utf-8' })
+  
+  // 3. 创建一个临时的下载链接
+  const url = URL.createObjectURL(blob)
+  
+  // 4. 创建一个看不见的 <a> 标签来触发下载
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `我的灵感笔记_${new Date().getTime()}.html` // 文件名带时间戳
+  
+  // 5. 触发点击，然后销毁
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 // 这里的类名都是 Tailwind 的
 const themes = {
   default: 'bg-gray-50 text-gray-800',
@@ -64,6 +92,15 @@ const analyzeMood=()=>{
   }else{
     currentTheme.value='default'
   }
+
+}
+
+// 2.监听更新内容（存档）
+onUpdate:({editor})=>{
+  // 1.获取html内容
+  const html=editor.getHTML()
+  // 2.存到本地存储
+  localStorage.setItem('ai-draft',html)
 
 }
 
@@ -113,12 +150,19 @@ onBeforeUnmount(() => {
       >
         <span>✨ 魔法变身</span>
       </button>
+
+      <button 
+  @click="exportFile"
+  class="px-3 py-1 border rounded hover:bg-gray-100 transition flex items-center gap-1"
+>
+  📥 导出
+</button>
     </div>
 
     <!-- 编辑器渲染区域 -->
     <editor-content :editor="editor" />
     
-    <div class="mt-8 text-sm text-gray-500 text-center">
+    <div  class="mt-8 text-sm text-gray-500 text-center">
       技术栈: Vue 3 + Vite + Tailwind CSS + Tiptap
     </div>
   </div>
